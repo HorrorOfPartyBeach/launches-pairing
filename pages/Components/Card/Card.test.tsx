@@ -17,7 +17,7 @@ const launch = {
 describe("Card Component", () => {
   test("should render a list of products", async () => {
     (fetchLaunchData as jest.Mock).mockResolvedValueOnce(launch);
-    let { getByText } = render(<Card launch={launch} />);
+    let { getByText } = render(<Card />);
     expect(fetchLaunchData).toHaveBeenCalledTimes(1);
     expect(getByText("Test Mission")).toBeInTheDocument();
   });

@@ -25,8 +25,7 @@ export const ListItem: React.FC<LaunchDataProps> = (props) => {
       <p>
         <strong>Launch Date:</strong> {launch.launch_date_utc}
       </p>
-      <p>
-        <strong>Mission Patch:</strong>{" "}
+      <Fragment>
         {launch.links.mission_patch_small ? (
           <Image
             src={imageSrc}
@@ -42,13 +41,13 @@ export const ListItem: React.FC<LaunchDataProps> = (props) => {
             height="200px"
           />
         )}
-      </p>
+      </Fragment>
       <p>
         <strong>Core Serial:</strong> {firstStageCores}
       </p>
       {secondStagePayloads.map((payloadItem) => {
         return (
-          <Fragment key={payloadItem[0]}>
+          <Fragment key={`${launch.flight_number} ${payloadItem[0]}`}>
             <p>
               <strong>Payload ID:</strong> {payloadItem[0]}
             </p>
@@ -58,6 +57,26 @@ export const ListItem: React.FC<LaunchDataProps> = (props) => {
           </Fragment>
         );
       })}
+      <p>
+        <strong>Launch Success: </strong>
+        {launch.launch_success === true
+          ? "Successful Launch"
+          : "Failed to Launch"}
+      </p>
+
+      {launch.launch_success === false && (
+        <Fragment>
+          {Object.entries(launch.launch_failure_details).map(
+            ([key, value], i) => {
+              return (
+                <p key={i}>
+                  <strong>{key}:</strong> {value}
+                </p>
+              );
+            }
+          )}
+        </Fragment>
+      )}
     </li>
   );
 };
